@@ -39,14 +39,14 @@ index_mapping = {
     7: "Histopathology",
     8: "Immunoassay",
     9: "ImmunoHistoChemistry",
-    10: "Molecular Biology",
+    10: "Molecular-Biology",
     11: "Immunology",
     12: "Parasitology",
     21: "Cytogenetics",
     23: "Others",
     26: "Package",
-    30: "Clinical Pathology",
-    31: "Molecular Pathology",
+    30: "Clinical-Pathology",
+    31: "Molecular-Pathology",
     33: "Cytopthology"
 }
 
@@ -54,7 +54,7 @@ try:
     login_response = session.post(login_url, data=payload)
     
     if login_response.status_code == 200:
-        logger.info(f"Login successful!, This is the success URL: {login_response.url}")
+        logger.info(f"Login successful! This is the success URL: {login_response.url}")
         
         for key, value in enumerate(range(34), start=1):
             if key not in index_mapping:
