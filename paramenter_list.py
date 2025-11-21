@@ -6,10 +6,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 
-
-
 BASE_DIR = Path(__file__).resolve().parent
-file_path = os.path.join(BASE_DIR, 'scraped_output.json')
+file_path = os.path.join(BASE_DIR, 'parameter_list.json')
 
 load_dotenv(BASE_DIR / '.env')
 
@@ -34,57 +32,26 @@ try:
     if login_response.status_code == 200:
         print("Login successful!", login_response.url)
         
-        for x in range (5):
-            print(protected_url)
-            data_response = session.get(f"{protected_url}testresult/get_tests/{x}")
-         
-            if data_response.status_code == 200:
-                scraped_data = data_response.json()
-                print(scraped_data)
+        data_response = session.get(f"{protected_url}parameterlist")
+        if data_response.status_code == 200:
+            scraped_data = data_response.json()
             
             try:
                 with open(file_path, 'w') as file:
                     json.dump(
                         scraped_data,
-                        file,
-                        indent=4
+                        file, 
+                        indent=5
                     )
-                    print(f"Text from scraped content successfully written into {file_path}")
+                    print(f"Scraped data from '{protected_url}parameterlist' successfully written into {file_path}")
+            
             except Exception as e:
-                print("Error writing to file:", e) 
-        
+                print("Error writing to file:", e)
+                
     else:
         print(f"Login failed. Status Code: {login_response.status_code}")
 
 except Exception as e:
     print("An error occurred during scraping:", e)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
+        
