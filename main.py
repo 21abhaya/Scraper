@@ -25,5 +25,4 @@ if response:
         print("Error writing to file:", e)
 
 else:
-    print(response.status_code)
-    print("Failed to fetch anything from the webpage")
+    print(f"Failed to fetch anything from the webpage. Status Code: {response.status_code}")
