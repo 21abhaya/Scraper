@@ -7,3 +7,5 @@ pycache__/
 .DS_Store
 
 *.json
+
+*.log
