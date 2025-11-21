@@ -1,7 +1,9 @@
-.env/
-env/
-venv/
+.env
+env
+venv
 
 pycache__/
 *.pyc
 .DS_Store
+
+*.json
