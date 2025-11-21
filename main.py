@@ -7,14 +7,12 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 
-
-
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename='scraper_main.log', level=logging.INFO)
 
 BASE_DIR = Path(__file__).resolve().parent
 def set_file_name(name):
-    return os.path.join(BASE_DIR, f'{name}-tests.json' if name else 'tests.json')
+    return os.path.join(BASE_DIR, f'{name}-tests.json')
 
 load_dotenv(BASE_DIR / '.env')
 
