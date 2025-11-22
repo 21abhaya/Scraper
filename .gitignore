@@ -6,6 +6,7 @@ pycache__/
 *.pyc
 .DS_Store
 
+from_parameters/
 *.json
 
 *.log
