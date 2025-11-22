@@ -8,11 +8,16 @@ from dotenv import load_dotenv
 
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(filename='scraper_main.log', level=logging.INFO)
+logging.basicConfig(
+    filename='scraper_main.log', 
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%m/%d/%Y %I:%M:%S %p',
+    level=logging.INFO
+)
 
 BASE_DIR = Path(__file__).resolve().parent
 def set_file_name(name):
-    return os.path.join(BASE_DIR, f'{name}-tests.json')
+    return os.path.join(BASE_DIR/'from_parameters', f'{name}-tests.json')
 
 load_dotenv(BASE_DIR / '.env')
 
@@ -75,7 +80,7 @@ try:
                         file,
                         indent=4
                     )
-                    logger.info(f"Text from scraped content successfully written into {set_file_name(label)}")
+                    logger.info(f"Scraped data successfully written into {set_file_name(label)}")
             except Exception:
                 logger.exception(f"Error writing to file {set_file_name(label)}:") 
         
