@@ -26,17 +26,18 @@ def set_file_name_to_keep_scraped_data(name):
 
 # fetch env variables
 login_url = os.getenv('LOGIN_URL')
+login_success_url = os.getenv('LOGIN_SUCCESS_URL')
 protected_url = os.getenv('PROTECTED_URL_BASE')
 username = os.getenv('LOGIN_USERNAME')
 password = os.getenv('LOGIN_PASSWORD')
-
-# Scraping logic
-session = requests.Session()
 
 payload = {
     'usernameOrEmail': username,
     'password': password
 }
+
+# Scraping logic
+session = requests.Session()
 
 index_mapping = {
     1: "Biochemistry",
@@ -60,8 +61,7 @@ index_mapping = {
 try:
     login_response = session.post(login_url, data=payload)
     
-    ## TODO: for if condition below, change status code check to URL check, because status code is 200 even on failed login
-    if login_response.status_code == 200:
+    if login_response.url == login_success_url:
         logger.info(f"Login successful! This is the success URL: {login_response.url}")
         
         for key, value in enumerate(range(34), start=1):

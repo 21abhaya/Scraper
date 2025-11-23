@@ -25,23 +25,23 @@ shortcode_file_path = os.path.join(BASE_DIR/"from_shortcodes", 'shortcodes.json'
 
 # fetch env variables
 login_url = os.getenv('LOGIN_URL')
+login_success_url = os.getenv('LOGIN_SUCCESS_URL')
 protected_url = os.getenv('PROTECTED_URL_BASE')
 username = os.getenv('LOGIN_USERNAME')
 password = os.getenv('LOGIN_PASSWORD')
-
-# Scraping logic
-session = requests.Session()
 
 payload = {
     'usernameOrEmail': username,
     'password': password
 }
 
+# Scraping logic
+session = requests.Session()
+
 try:
     login_response = session.post(login_url, data=payload)
     
-    ## TODO: for if condition below, change status code check to URL check, because status code is 200 even on failed login
-    if login_response.status_code == 200:
+    if login_response.url == login_success_url:
         logger.info(f"Login successful! This is the success URL: {login_response.url}")
         
         response = session.get(f"{protected_url}shortcode?_=1763835813693")
