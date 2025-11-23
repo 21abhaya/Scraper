@@ -7,26 +7,27 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 
+
+
+BASE_DIR = Path(__file__).resolve().parent
+load_dotenv(BASE_DIR/ '.env')
+
+log_file_path = os.path.join(BASE_DIR/"logs", 'short_codes.log')
 logger = logging.getLogger(__name__)
 logging.basicConfig(
-    filename='short_codes.log',
+    filename=log_file_path,
     format='%(asctime)s - %(levelname)s - %(message)s',
     datefmt='%m/%d/%Y %I:%M:%S %p',
     level=logging.INFO
 )
 
-
-BASE_DIR = Path(__file__).resolve().parent
-file_path = os.path.join(BASE_DIR/'from_shortcodes', 'shortcodes.json')
-
-load_dotenv(BASE_DIR/ '.env')
+shortcode_file_path = os.path.join(BASE_DIR/"from_shortcodes", 'shortcodes.json')
 
 # fetch env variables
 login_url = os.getenv('LOGIN_URL')
 protected_url = os.getenv('PROTECTED_URL_BASE')
 username = os.getenv('LOGIN_USERNAME')
 password = os.getenv('LOGIN_PASSWORD')
-
 
 # Scraping logic
 session = requests.Session()
@@ -36,10 +37,10 @@ payload = {
     'password': password
 }
 
-login_response = session.post(login_url, data=payload)
-
 try:
+    login_response = session.post(login_url, data=payload)
     
+    ## TODO: for if condition below, change status code check to URL check, because status code is 200 even on failed login
     if login_response.status_code == 200:
         logger.info(f"Login successful! This is the success URL: {login_response.url}")
         
@@ -50,13 +51,13 @@ try:
             shortcodes = response.json()
             
             try:
-                with open(file_path, 'w') as json_file:
+                with open(shortcode_file_path, 'w') as json_file:
                     json.dump(
                         shortcodes,
                         json_file,
                         indent=4
                     )
-                logger.info(f"Shortcodes successfully written to {file_path}")
+                logger.info(f"Shortcodes successfully written to {shortcode_file_path}")
            
             except Exception as e:
                 logger.exception("Error while writing to file")
