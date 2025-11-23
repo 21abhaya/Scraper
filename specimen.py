@@ -36,7 +36,7 @@ payload = {
 
 # Scraping logic
 session = requests.Session()
-all_data = []
+specimens = []
 
 try: 
     
@@ -54,12 +54,12 @@ try:
             
             logger.info(f"Fetching data for specimenID[{specimen_id}] from: {protected_url}specimen/{specimen_id}/edit")
             data = response.json()
-            all_data.append(data)
+            specimens.append(data)
             
         try:
             with open(specimens_file_path, 'w') as file:
                 json.dump(
-                    all_data,
+                    specimens,
                     file,
                     indent=3
                 )
